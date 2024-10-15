@@ -11,6 +11,8 @@ This extension automatically formats Rust files using `leptosfmt` when you save 
 
 [![Demo](https://media.giphy.com/media/q5Ajov98qGdrPRihRM/giphy.gif)](https://youtu.be/dS92U-yv7co)
 
+![Demo](images/output.gif)
+
 ## Requirements
 
 - **Rust**: Ensure you have Rust installed on your machine.
