@@ -9,8 +9,7 @@ This extension automatically formats Rust files using `leptosfmt` when you save 
 
 ## Animated Overview
 
-![GIF](https://media.giphy.com/media/q5Ajov98qGdrPRihRM/giphy.gif)
-[![Watch this video](https://img.youtube.com/vi/dS92U-yv7co/0.jpg)](https://youtu.be/dS92U-yv7co)
+[![Demo](https://media.giphy.com/media/q5Ajov98qGdrPRihRM/giphy.gif)](https://youtu.be/dS92U-yv7co)
 
 ## Requirements
 
