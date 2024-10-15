@@ -7,7 +7,7 @@ This extension automatically formats Rust files using `leptosfmt` when you save 
 - **Automatic Formatting**: Automatically runs `leptosfmt` on Rust files containing the `view!` macro and the relevant Leptos import statements when saved.
 - **User Notifications**: Provides helpful notifications if `leptosfmt` is not installed or if any errors occur during formatting.
 
-![GIF](https://media.giphy.com/media/q5Ajov98qGdrPRihRM/giphy.gif)
+[![Demo](https://img.youtube.com/vi/dS92U-yv7co/0.jpg)](https://youtu.be/dS92U-yv7co)
 
 ## Requirements
 

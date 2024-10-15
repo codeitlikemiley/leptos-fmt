@@ -7,3 +7,8 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ## [0.0.1] 2024-10-15
 
 - Initial release
+
+## 0.0.2 2024-10-15
+
+- Add Demo on YT
+
