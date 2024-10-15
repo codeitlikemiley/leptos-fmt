@@ -2,6 +2,10 @@
   "name": "leptos-fmt",
   "displayName": "leptos-fmt",
   "description": "format your leptos code with leptosfmt inside vscode",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/codeitlikemiley/leptos-fmt.git"
+  },
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.94.0"
@@ -17,8 +21,12 @@
     "languages": [
       {
         "id": "rust",
-        "extensions": [".rs"],
-        "aliases": ["Rust"]
+        "extensions": [
+          ".rs"
+        ],
+        "aliases": [
+          "Rust"
+        ]
       }
     ]
   },
