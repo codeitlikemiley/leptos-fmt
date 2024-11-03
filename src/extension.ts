@@ -8,13 +8,14 @@ export function activate(context: vscode.ExtensionContext) {
   console.log('Leptosfmt-on-save extension is now active.');
 
   // Construct the path to leptosfmt
-  const leptosfmtPath = path.join(os.homedir(), '.cargo', 'bin', 'leptosfmt');
+  const cargoHome = process.env.CARGO_HOME || path.resolve(os.homedir(), '.cargo');
+  const leptosfmtPath = path.join(cargoHome, 'bin', 'leptosfmt');
 
   // Check if leptosfmt exists on activation
   if (!fs.existsSync(leptosfmtPath)) {
     vscode.window.showErrorMessage(`Leptosfmt not found. Please install it using: cargo install leptosfmt`);
   }
-  
+
   let disposable = vscode.workspace.onDidSaveTextDocument((document) => {
     const filePath = document.uri.fsPath;
     const fileContent = document.getText();
@@ -34,10 +35,10 @@ export function activate(context: vscode.ExtensionContext) {
           return;
         }
       });
-    } 
+    }
   });
 
   context.subscriptions.push(disposable);
 }
 
-export function deactivate() {}
+export function deactivate() { }
