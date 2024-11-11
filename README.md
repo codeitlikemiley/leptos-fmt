@@ -16,5 +16,6 @@ This extension automatically formats Rust files using `leptosfmt` when you save 
 - **Rust**: Ensure you have Rust installed on your machine.
 - **Leptosfmt**: This extension requires `leptosfmt`. Install it using:
 
-  ```bash
-  cargo install leptosfmt
+```bash
+cargo install leptosfmt
+```
