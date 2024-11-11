@@ -4,6 +4,11 @@ All notable changes to the "leptos-fmt" extension will be documented in this fil
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.0.5] 2024-11-11
+- Only trigger format when manually saving rust files
+- Added command palette command `Format with Leptosfmt`
+- Added `extension.formatWithLeptosfmt` command that can be binded to a keybinding
+
 ## [0.0.4] 2024-11-03
 - read $CARGO_HOME from path instead of hardcoding it
 
