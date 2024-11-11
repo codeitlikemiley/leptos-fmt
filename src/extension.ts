@@ -1,71 +1,30 @@
 import * as vscode from 'vscode';
-import { exec } from 'child_process';
-import * as os from 'os';
-import * as path from 'path';
-import * as fs from 'fs';
 
 export function activate(context: vscode.ExtensionContext) {
-  const outputChannel = vscode.window.createOutputChannel('leptos-fmt');
-  outputChannel.show();
+  const channel = vscode.window.createOutputChannel('leptos-fmt');
+  channel.show(true);
+  // Get the current configuration for rust-analyzer
+  const config = vscode.workspace.getConfiguration('rust-analyzer');
+  const currentCommand = config.get<string[]>('rustfmt.overrideCommand');
 
-  outputChannel.appendLine('leptos-fmt extension is now active.');
+  // Check if the setting is already defined
+  const defaultCommand = ['leptosfmt', '--stdin', '--rustfmt'];
 
-  const cargoHome = process.env.CARGO_HOME || path.resolve(os.homedir(), '.cargo');
-  const leptosfmtPath = path.join(cargoHome, 'bin', 'leptosfmt');
-
-  if (!fs.existsSync(leptosfmtPath)) {
-    vscode.window.showErrorMessage(`Leptosfmt not found. Please install it using: cargo install leptosfmt`);
-    outputChannel.appendLine(`Leptosfmt not found. Please install it using: cargo install leptosfmt`);
-    return;
+  if (!currentCommand || currentCommand.toString() !== defaultCommand.toString()) {
+    // Set the default value if not already set or if it's different
+    config.update('rustfmt.overrideCommand', defaultCommand, vscode.ConfigurationTarget.Global);
+    channel.appendLine('rust-analyzer.rustfmt.overrideCommand has been set to the default value.');
+  } else {
+    channel.appendLine('rust-analyzer.rustfmt.overrideCommand is already set to the default value.');
   }
 
-  let formatCommand = vscode.commands.registerCommand('extension.formatWithLeptosfmt', () => {
-    const editor = vscode.window.activeTextEditor;
-    if (!editor) {
-      vscode.window.showErrorMessage('No active editor found.');
-      return;
-    }
-
-    const document = editor.document;
-    const filePath = document.uri.fsPath;
-    const fileContent = document.getText();
-
-    const isRustFile = document.languageId === 'rust' && document.uri.scheme === 'file';
-    const containsViewMacro = fileContent.includes('view!');
-    const containsLeptosImport = fileContent.includes('use leptos::*;');
-    const containsLeptosViewMacroImport = fileContent.includes('use leptos::view;');
-
-    if (isRustFile && containsViewMacro && (containsLeptosImport || containsLeptosViewMacroImport)) {
-      exec(`${leptosfmtPath} "${filePath}"`, (error, stdout, stderr) => {
-        if (error) {
-          outputChannel.appendLine(`Leptosfmt error: ${stderr || error.message}`);
-        }
-      });
-    }
-  });
-
-  let disposable = vscode.workspace.onWillSaveTextDocument((event) => {
-    if (event.reason === vscode.TextDocumentSaveReason.Manual) {
-      const document = event.document;
-      const filePath = document.uri.fsPath;
-      const fileContent = document.getText();
-
-      const isRustFile = document.languageId === 'rust' && document.uri.scheme === 'file';
-      const containsViewMacro = fileContent.includes('view!');
-      const containsLeptosImport = fileContent.includes('use leptos::*;');
-      const containsLeptosViewMacroImport = fileContent.includes('use leptos::view;');
-
-      if (isRustFile && containsViewMacro && (containsLeptosImport || containsLeptosViewMacroImport)) {
-        exec(`${leptosfmtPath} "${filePath}"`, (error, stdout, stderr) => {
-          if (error) {
-            outputChannel.appendLine(`Leptosfmt error: ${stderr || error.message}`);
-          }
-        });
-      }
-    }
-  });
-
-  context.subscriptions.push(disposable, formatCommand);
+  // Check if Rust Analyzer is active and ready
+  const rustAnalyzerActive = vscode.workspace.getConfiguration('rust-analyzer').get<boolean>('enabled');
+  if (rustAnalyzerActive) {
+    channel.appendLine('Rust Analyzer is active');
+  } else {
+    channel.appendLine('Rust Analyzer is not active');
+  }
 }
 
-export function deactivate() { }
+export function deactivate() {}

@@ -20,12 +20,19 @@
   ],
   "main": "./dist/extension.js",
   "contributes": {
-    "commands": [
-      {
-        "command": "extension.formatWithLeptosfmt",
-        "title": "Format with Leptosfmt"
+    "configuration": {
+      "properties": {
+        "rust-analyzer.rustfmt.overrideCommand": {
+          "type": "array",
+          "description": "Override the rustfmt command used by rust-analyzer.",
+          "default": [
+            "leptosfmt",
+            "--stdin",
+            "--rustfmt"
+          ]
+        }
       }
-    ],
+    },
     "languages": [
       {
         "id": "rust",
