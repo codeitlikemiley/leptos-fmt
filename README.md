@@ -40,7 +40,7 @@ cargo install leptosfmt
 
 
 
-## Custom Key Bindings
+## Using Leptos FMT with Custom Key Bindings
 
 <img width="1084" alt="Screenshot 2024-11-12 at 7 29 24 PM" src="https://github.com/user-attachments/assets/36e2a98f-f475-43d8-932e-a7567c68e8a1">
 
