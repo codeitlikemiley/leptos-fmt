@@ -4,6 +4,11 @@ All notable changes to the "leptos-fmt" extension will be documented in this fil
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.0.6] 2024-11-11
+- Remove onWillSaveTextDocument event listener
+- replace with vscodeAction to trigger the format command
+- added custom leptos fmt path on settings
+
 ## [0.0.5] 2024-11-11
 - Only trigger format when manually saving rust files
 - Added command palette command `Format with Leptosfmt`
