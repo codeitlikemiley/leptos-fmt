@@ -42,3 +42,12 @@ cargo install leptosfmt
 2. Type `Keyboard Shortcuts` to open the keyboard shortcuts settings.
 3. Search for `leptos-fmt.format` 
 4. Bind it to a keybinding to your preference e.g. `OPTION + SHIFT + F` or `CTRL + SHIFT + F`
+
+## Custom Paths
+
+<img width="1084" alt="Screenshot 2024-11-12 at 7 28 03 PM" src="https://github.com/user-attachments/assets/b9a1b953-2e63-4996-81e4-55879f14cbb3">
+
+1. Press <kbd>CMD or CTRL</kbd> + <kbd>,</kbd> to open the settings.
+2. type `leptos`
+3. find `leptos-fmt.path` and set it to the path of your `leptosfmt` binary 
+4. find `leptos-fmt.cargoHome` and set it to the path of your `cargo` home directory
