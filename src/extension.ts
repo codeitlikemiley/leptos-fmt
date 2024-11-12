@@ -1,103 +1,88 @@
-import * as vscode from 'vscode';
-import { exec } from 'child_process';
-import * as os from 'os';
-import * as path from 'path';
-import * as fs from 'fs';
-
-export function activate(context: vscode.ExtensionContext) {
-  const channel = vscode.window.createOutputChannel('leptos-fmt');
-  channel.show(true);
-  context.subscriptions.push(channel);
-
-  const rustAnalyzerInstalled = vscode.extensions.getExtension('rust-lang.rust-analyzer');
-  if (rustAnalyzerInstalled) {
-    let message =  'Rust Analyzer (rust-lang.rust-analyzer) is installed and active.';
-    channel.appendLine(message);
-  } else {
-    let message =  'Rust Analyzer (rust-lang.rust-analyzer) is not installed.';
-    vscode.window.showErrorMessage(message);
-    channel.appendLine(message);
-    return;
-  }
-
-  const rustConfig = vscode.workspace.getConfiguration('rust-analyzer');
-  const leptosConfig = vscode.workspace.getConfiguration('leptos-fmt');
-
-  const customLeptosfmtPath = leptosConfig.get<string>('path');
-  if (customLeptosfmtPath) {
-    channel.appendLine('Custom leptosfmt path is set to ' + customLeptosfmtPath);
-  }
-
-  const customCargoHome = leptosConfig.get<string>('cargoHome') || '';
-  if (customCargoHome) {
-    channel.appendLine('Custom cargo home is set to: ' + customCargoHome);
-  }
-  
-  const defaultCargoHome = process.env.CARGO_HOME || path.resolve(os.homedir(), '.cargo');
-  channel.appendLine('Default cargo home is set to: ' + defaultCargoHome);
-
-  const cargoHome = customCargoHome || defaultCargoHome;
-  channel.appendLine('Cargo home being used is: ' + cargoHome);
-  const leptosfmtPath = customLeptosfmtPath || path.join(cargoHome, 'bin', 'leptosfmt');
-  channel.appendLine('leptosfmt path being used is: ' + leptosfmtPath);
-
-  if (!fs.existsSync(leptosfmtPath)) {
-    let message = `Leptosfmt not found at ${leptosfmtPath}. Please install it or specify the correct path.`;
-    channel.appendLine(message);
-    vscode.window.showErrorMessage(message);
-    return;
-  }
-
-
-
-  const formatter = vscode.commands.registerCommand('leptos-fmt.format', async (document?: vscode.TextDocument) => {
-    const activeDocument = document || vscode.window.activeTextEditor?.document;
-    if (!activeDocument) {
-      let message = 'No active document found to format.';
-      channel.appendLine(message);
-      vscode.window.showErrorMessage(message);
-      return;
-    }
-
-    const filePath = activeDocument.uri.fsPath;
-    const isRustFile = activeDocument.languageId === 'rust' && activeDocument.uri.scheme === 'file';
-
-    if (isRustFile) {
-      try {
-        exec(`${leptosfmtPath} "${filePath}"`, (error, stdout, stderr) => {
-          if (error) {
-            channel.appendLine(`Leptosfmt error: ${stderr || error.message}`);
-            vscode.window.showErrorMessage(`Leptosfmt error: ${stderr || error.message}`);
-          } else {
-            channel.appendLine(stdout);
-            vscode.window.showInformationMessage(`Formatted: ${filePath}`);
-          }
-        });
-      } catch (err) {
-        let message = `Error formatting document: ${err}`;
-        channel.appendLine(message);
-        vscode.window.showErrorMessage(message);
+{
+  "name": "leptos-fmt",
+  "displayName": "leptos-fmt",
+  "publisher": "masterustacean",
+  "description": "format your leptos code with leptosfmt inside vscode",
+  "icon": "images/icon.webp",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/codeitlikemiley/leptos-fmt.git"
+  },
+  "version": "0.0.8",
+  "engines": {
+    "vscode": "^1.94.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onLanguage:rust"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "configuration": {
+      "type": "object",
+      "title": "Leptosfmt Configuration",
+      "properties": {
+        "leptos-fmt.cargoHome": {
+          "type": "string",
+          "default": "",
+          "description": "(Optional) - Only modify this if $CARGO_HOME is not set on your env or if you want to use a different cargo home location"
+        },
+        "leptos-fmt.path": {
+          "type": "string",
+          "default": "",
+          "description": "(Optional) - Only modify this if leptosfmt is not in your $CARGO_HOME/bin folder or if you want to use a different path"
+        }
       }
-    } else {
-      let message = 'Only Rust files can be formatted with Leptosfmt.';
-      channel.appendLine(message);
-      vscode.window.showErrorMessage(message);
-    }
-  });
-
-  const init = vscode.commands.registerCommand('leptos-fmt.init', async (document?: vscode.TextDocument) => {
-    const defaultCommand = ['leptosfmt', '--stdin', '--rustfmt'];
-    const currentCommand = rustConfig.get<string[]>('rustfmt.overrideCommand');
-    channel.appendLine('Current rust-analyzer.rustfmt.overrideCommand is: ' + currentCommand);
-    if (!currentCommand || currentCommand.toString() !== defaultCommand.toString()) {
-      rustConfig.update('rustfmt.overrideCommand', defaultCommand, vscode.ConfigurationTarget.Workspace);
-      channel.appendLine('rust-analyzer.rustfmt.overrideCommand has been set to the default value.');
-    } else {
-      channel.appendLine('rust-analyzer.rustfmt.overrideCommand is already set to the default value.');
-    }
-  });
-
-  context.subscriptions.push(formatter, init);
+    },
+    "commands": [
+      {
+        "command": "leptos-fmt.format",
+        "title": "Format with Leptosfmt"
+      },
+      {
+        "command": "leptos-fmt.init",
+        "title": "Leptos Init"
+      }
+    ],
+    "languages": [
+      {
+        "id": "rust",
+        "extensions": [
+          ".rs"
+        ],
+        "aliases": [
+          "Rust"
+        ]
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "npm run check-types && npm run lint && node esbuild.js",
+    "watch": "npm-run-all -p watch:*",
+    "watch:esbuild": "node esbuild.js --watch",
+    "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
+    "package": "npm run check-types && npm run lint && node esbuild.js --production",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "check-types": "tsc --noEmit",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.94.0",
+    "@types/mocha": "^10.0.8",
+    "@types/node": "20.x",
+    "@typescript-eslint/eslint-plugin": "^8.7.0",
+    "@typescript-eslint/parser": "^8.7.0",
+    "eslint": "^9.11.1",
+    "esbuild": "^0.24.0",
+    "npm-run-all": "^4.1.5",
+    "typescript": "^5.6.2",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.4.1"
+  }
 }
-
-export function deactivate() { }

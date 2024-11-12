@@ -19,6 +19,15 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 - replace with vscodeAction to trigger the format command
 - added custom leptos fmt path on settings
 
+## [0.0.7] 2024-11-11
+- change command name to leptos-fmt.format
+- update `"source.fixAll.leptos-fmt": "explicit"` on default configuration
+
+## [0.0.6] 2024-11-11
+- Remove onWillSaveTextDocument event listener
+- replace with vscodeAction to trigger the format command
+- added custom leptos fmt path on settings
+
 ## [0.0.5] 2024-11-11
 - Only trigger format when manually saving rust files
 - Added command palette command `Format with Leptosfmt`
