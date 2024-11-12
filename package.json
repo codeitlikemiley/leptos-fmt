@@ -8,7 +8,7 @@
     "type": "git",
     "url": "https://github.com/codeitlikemiley/leptos-fmt.git"
   },
-  "version": "0.0.6",
+  "version": "0.0.7",
   "engines": {
     "vscode": "^1.94.0"
   },
@@ -30,7 +30,7 @@
     ],
     "commands": [
       {
-        "command": "extension.formatWithLeptosfmt",
+        "command": "leptos-fmt.format",
         "title": "Format with Leptosfmt"
       }
     ],
@@ -48,7 +48,7 @@
     "configurationDefaults": {
       "[rust]": {
         "editor.codeActionsOnSave": {
-          "source.fixAll.leptosfmt": "explicit"
+          "source.fixAll.leptos-fmt": "explicit"
         }
       }
     }
