@@ -27,15 +27,15 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.languages.registerCodeActionsProvider('rust', {
       provideCodeActions(document, range, context, token) {
         const actions: vscode.CodeAction[] = [];
-        const formatAction = new vscode.CodeAction('Format with Leptosfmt', vscode.CodeActionKind.SourceFixAll.append('leptosfmt'));
-        formatAction.command = { command: 'extension.formatWithLeptosfmt', title: 'Format with Leptosfmt', arguments: [document] };
+        const formatAction = new vscode.CodeAction('Format with Leptosfmt', vscode.CodeActionKind.SourceFixAll.append('leptos-fmt'));
+        formatAction.command = { command: 'leptos-fmt.format', title: 'Format with Leptosfmt', arguments: [document] };
         actions.push(formatAction);
         return actions;
       }
     })
   );
 
-  const formatCommand = vscode.commands.registerCommand('extension.formatWithLeptosfmt', async (document?: vscode.TextDocument) => {
+  const formatCommand = vscode.commands.registerCommand('leptos-fmt.format', async (document?: vscode.TextDocument) => {
     const activeDocument = document || vscode.window.activeTextEditor?.document;
     if (!activeDocument) {
         outputChannel.appendLine('No active document found to format.');
