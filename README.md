@@ -1,7 +1,10 @@
 # leptos-fmt
 
-This extension allows you to init a leptos rust analyzer settings , that would auto-format your leptos code with `leptosfmt` inside vscode.
-If you dont like polluting your workspace config, e.g. you have a project with multiple workspaces, you can bind `leptos-fmt.format` to a keybinding and press that to format your code.
+Uses the built in Rust analyzer to auto-format your Leptos code. You can invoke command palette command with `Leptos Init` to generate the override command on your `.vscode/settings.json` file.
+
+For Complex Project , and you dont want to override fmt on workspace level, and avoid pulluting override command on other projects.
+
+You can invoke command palette command with `Format with Leptosfmt` or bind it to a key.
 
 ## Demo
 [![Demo](https://raw.githubusercontent.com/codeitlikemiley/leptos-fmt/yt/images/demo.gif)](https://youtu.be/dS92U-yv7co)
