@@ -8,7 +8,7 @@
     "type": "git",
     "url": "https://github.com/codeitlikemiley/leptos-fmt.git"
   },
-  "version": "0.0.5",
+  "version": "0.0.8",
   "engines": {
     "vscode": "^1.94.0"
   },
@@ -21,18 +21,31 @@
   "main": "./dist/extension.js",
   "contributes": {
     "configuration": {
+      "type": "object",
+      "title": "Leptosfmt Configuration",
       "properties": {
-        "rust-analyzer.rustfmt.overrideCommand": {
-          "type": "array",
-          "description": "Override the rustfmt command used by rust-analyzer.",
-          "default": [
-            "leptosfmt",
-            "--stdin",
-            "--rustfmt"
-          ]
+        "leptos-fmt.cargoHome": {
+          "type": "string",
+          "default": "",
+          "description": "(Optional) - Only modify this if $CARGO_HOME is not set on your env or if you want to use a different cargo home location"
+        },
+        "leptos-fmt.path": {
+          "type": "string",
+          "default": "",
+          "description": "(Optional) - Only modify this if leptosfmt is not in your $CARGO_HOME/bin folder or if you want to use a different path"
         }
       }
     },
+    "commands": [
+      {
+        "command": "leptos-fmt.format",
+        "title": "Format with Leptosfmt"
+      },
+      {
+        "command": "leptos-fmt.init",
+        "title": "Leptos Init"
+      }
+    ],
     "languages": [
       {
         "id": "rust",
