@@ -43,7 +43,7 @@ cargo install leptosfmt
 1. Press `Ctrl+Shift+P` to open the command palette.
 2. Type `Keyboard Shortcuts` to open the keyboard shortcuts settings.
 3. Search for `leptos-fmt.format` 
-4. Bind it to a keybinding to your preference e.g. `OPTION + SHIFT + F` or `CTRL + SHIFT + F`
+4. Bind it to a keybinding to your preference e.g. <kbd>OPT</kbd> + <kbd>SHIFT</kbd> + <kbd>F</kbd>
 
 ## Custom Paths
 
