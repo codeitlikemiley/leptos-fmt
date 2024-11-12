@@ -8,7 +8,7 @@
     "type": "git",
     "url": "https://github.com/codeitlikemiley/leptos-fmt.git"
   },
-  "version": "0.0.5",
+  "version": "0.0.6",
   "engines": {
     "vscode": "^1.94.0"
   },
@@ -20,23 +20,38 @@
   ],
   "main": "./dist/extension.js",
   "contributes": {
+    "languages": [
+      {
+        "id": "rust",
+        "extensions": [
+          ".rs"
+        ]
+      }
+    ],
     "commands": [
       {
         "command": "extension.formatWithLeptosfmt",
         "title": "Format with Leptosfmt"
       }
     ],
-    "languages": [
-      {
-        "id": "rust",
-        "extensions": [
-          ".rs"
-        ],
-        "aliases": [
-          "Rust"
-        ]
+    "configuration": {
+      "type": "object",
+      "title": "Leptosfmt Configuration",
+      "properties": {
+        "leptos-fmt.cargoHome": {
+          "type": "string",
+          "default": "",
+          "description": "The path to the Cargo home directory. If not set, the default Cargo home directory will be used."
+        }
       }
-    ]
+    },
+    "configurationDefaults": {
+      "[rust]": {
+        "editor.codeActionsOnSave": {
+          "source.fixAll.leptosfmt": "explicit"
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run package",
