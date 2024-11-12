@@ -1,6 +1,7 @@
 # leptos-fmt
 
-This extension automatically formats Rust files using `leptosfmt` when you save them, specifically targeting files that contain the `view!` macro and import statements for Leptos.
+This extension allows you to init a leptos rust analyzer settings , that would auto-format your leptos code with `leptosfmt` inside vscode.
+If you dont like polluting your workspace config, e.g. you have a project with multiple workspaces, you can bind `leptos-fmt.format` to a keybinding and press that to format your code.
 
 ## Demo
 [![Demo](https://raw.githubusercontent.com/codeitlikemiley/leptos-fmt/yt/images/demo.gif)](https://youtu.be/dS92U-yv7co)
