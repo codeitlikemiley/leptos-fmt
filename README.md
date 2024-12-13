@@ -29,10 +29,18 @@ cargo install leptosfmt
 
 ```json
 {
+    "rust-analyzer.procMacro.ignored": {
+        "leptos_macro": [
+            "server"
+        ]
+    },
     "rust-analyzer.rustfmt.overrideCommand": [
         "leptosfmt",
         "--stdin",
         "--rustfmt"
+    ],
+    "rust-analyzer.cargo.features": [
+        "ssr"
     ]
 }
 ```

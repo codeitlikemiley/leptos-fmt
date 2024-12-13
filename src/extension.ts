@@ -3,6 +3,7 @@ import { exec } from 'child_process';
 import * as os from 'os';
 import * as path from 'path';
 import * as fs from 'fs';
+import { updateCargoFeatures, updateProcMacroIgnored, updateRustfmtCommand } from './rust-analyzer';
 
 export function activate(context: vscode.ExtensionContext) {
   const channel = vscode.window.createOutputChannel('leptos-fmt');
@@ -11,10 +12,10 @@ export function activate(context: vscode.ExtensionContext) {
 
   const rustAnalyzerInstalled = vscode.extensions.getExtension('rust-lang.rust-analyzer');
   if (rustAnalyzerInstalled) {
-    let message =  'Rust Analyzer (rust-lang.rust-analyzer) is installed and active.';
+    let message = 'Rust Analyzer (rust-lang.rust-analyzer) is installed and active.';
     channel.appendLine(message);
   } else {
-    let message =  'Rust Analyzer (rust-lang.rust-analyzer) is not installed.';
+    let message = 'Rust Analyzer (rust-lang.rust-analyzer) is not installed.';
     vscode.window.showErrorMessage(message);
     channel.appendLine(message);
     return;
@@ -32,7 +33,7 @@ export function activate(context: vscode.ExtensionContext) {
   if (customCargoHome) {
     channel.appendLine('Custom cargo home is set to: ' + customCargoHome);
   }
-  
+
   const defaultCargoHome = process.env.CARGO_HOME || path.resolve(os.homedir(), '.cargo');
   channel.appendLine('Default cargo home is set to: ' + defaultCargoHome);
 
@@ -86,18 +87,24 @@ export function activate(context: vscode.ExtensionContext) {
   });
 
   const init = vscode.commands.registerCommand('leptos-fmt.init', async (document?: vscode.TextDocument) => {
-    const defaultCommand = ['leptosfmt', '--stdin', '--rustfmt'];
-    const currentCommand = rustConfig.get<string[]>('rustfmt.overrideCommand');
-    channel.appendLine('Current rust-analyzer.rustfmt.overrideCommand is: ' + currentCommand);
-    if (!currentCommand || currentCommand.toString() !== defaultCommand.toString()) {
-      rustConfig.update('rustfmt.overrideCommand', defaultCommand, vscode.ConfigurationTarget.Workspace);
-      channel.appendLine('rust-analyzer.rustfmt.overrideCommand has been set to the default value.');
-    } else {
-      channel.appendLine('rust-analyzer.rustfmt.overrideCommand is already set to the default value.');
+    try {
+      await updateProcMacroIgnored(rustConfig, channel);
+      await updateRustfmtCommand(rustConfig, channel);
+      await updateCargoFeatures(rustConfig, channel);
+
+      vscode.window.showInformationMessage('Leptos formatter initialization complete.');
+    } catch (error) {
+      channel.appendLine(`Error during initialization: ${error instanceof Error ? error.message : error}`);
+      vscode.window.showErrorMessage('Failed to initialize Leptos formatter.');
     }
   });
 
+
   context.subscriptions.push(formatter, init);
 }
+
+
+
+
 
 export function deactivate() { }
