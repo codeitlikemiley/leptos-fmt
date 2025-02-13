@@ -4,6 +4,9 @@ All notable changes to the "leptos-fmt" extension will be documented in this fil
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.1.3] 2024-11-12
+- hide panel on startup
+
 ## [0.0.9] 2024-11-12
 - updated README
 - add leptos-fmt.init command
