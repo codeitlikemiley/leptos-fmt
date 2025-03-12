@@ -39,7 +39,8 @@ export function activate(context: vscode.ExtensionContext) {
 
   const cargoHome = customCargoHome || defaultCargoHome;
   channel.appendLine(`Cargo home being used is: ${cargoHome}`);
-  const leptosfmtPath = customLeptosfmtPath || path.join(cargoHome, 'bin', 'leptosfmt');
+  const leptosfmtPathExtension = process.platform === 'win32' ? '.exe' : '';
+  const leptosfmtPath = customLeptosfmtPath || path.join(cargoHome, 'bin', `leptosfmt${leptosfmtPathExtension}`);
   channel.appendLine(`leptosfmt path being used is: ${leptosfmtPath}`);
 
   if (!fs.existsSync(leptosfmtPath)) {
