@@ -2,7 +2,7 @@
 
 > Open VSX | Vscode Marketplace
 
-![Open VSX Downloads](https://img.shields.io/open-vsx/dt/masterustacean/leptos-fmt) ![Vscode Marketplace](https://vsmarketplacebadges.dev/downloads/masterustacean.leptos-fmt.svg)
+[![Open VSX Downloads](https://img.shields.io/open-vsx/dt/masterustacean/leptos-fmt)](https://open-vsx.org/extension/masterustacean/leptos-fmt) [![Vscode Marketplace](https://vsmarketplacebadges.dev/downloads/masterustacean.leptos-fmt.svg)](https://marketplace.visualstudio.com/items?itemName=masterustacean.leptos-fmt)
 
 
 Uses the built in Rust analyzer to auto-format your Leptos code. You can invoke command palette command with `Leptos Init` to generate the override command on your `.vscode/settings.json` file.
